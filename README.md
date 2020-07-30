@@ -22,9 +22,13 @@ Q. Convert the Kimai WebApp to run on k8 platform with high availablity
 `kubectl apply -f kimai.yaml`
 
 4. Create configmap for Nginx
+
 `kubectl apply -f nginx-configmap.yaml`
+
 5. Setup Nginx service with external facing loadbalancer and configuration from configmap
+
 `kubectl apply -f nginx.yaml`
+
 
 ## Challenges and k8 Solutions
 1. Dynamic configuration for Nginx --> use configmap

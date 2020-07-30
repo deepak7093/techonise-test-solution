@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pv-claim
+  labels:
+    app: "kimai" 
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: kimai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kimai
+  template:
+    metadata:
+      labels:
+        app: kimai
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: kimai
+        image: kimai/kimai2:fpm-alpine-1.5-prod
+        ports:
+        - containerPort: 80
+        env:
+        - name: APP_ENV
+          value: prod
+        - name: TRUSTED_HOSTS
+          value: nginx,localhost,127.0.0.1,a10616826d22d11eaa00902ebd2054e8-4285195.us-east-1.elb.amazonaws.com
+        - name: TRUSTED_PROXIES
+          value: nginx,localhost,127.0.0.1,a10616826d22d11eaa00902ebd2054e8-4285195.us-east-1.elb.amazonaws.com
+        - name: ADMINMAIL
+          value: admin@kimai.local
+        - name: ADMINPASS
+          value: changemeplease
+        - name: DATABASE_URL
+          value: mysql://root:rootpass@sqldb/kimai
+        volumeMounts:
+        - name: app-public-dir
+          mountPath: /opt/kimai/test
+      volumes:
+      - name: app-public-dir
+        persistentVolumeClaim:
+          claimName: app-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kimai
+spec:
+  selector:
+    app: kimai
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+
+

@@ -3,7 +3,7 @@
 - Application URL:  
 
 ## Problem Statement: 
-Q. Convert the Kimai WebApp to run on k8 platform with high availablity
+Q. Convert the ![Kimai WebApp](https://github.com/tobybatch/kimai2) to run on k8 platform with high availablity
 
 ## Architecture
 ![GitHub Logo](kimai_arch.png)

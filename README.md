@@ -9,12 +9,18 @@ Q. Convert the Kimai WebApp to run on k8 platform with high availablity
 ![GitHub Logo](kimai_arch.png)
 ## Setup instructions
 *Note* : To run MySQL database use managed service like `RDS` or `CloudSQL`. This is for development purpose only. 
-1. Create Namespace
+1. Create Namespace 
+
 `kubectl create namespace kimai`
+
 2. Setup MySQL service with persistent volumes
+
 `kubectl apply -f mysql.yaml -n kimai`
+
 3. Setup kimai application with shared volumes for `/opt/kimai/public` dir
+
 `kubectl apply -f kimai.yaml`
+
 4. Create configmap for Nginx
 `kubectl apply -f nginx-configmap.yaml`
 5. Setup Nginx service with external facing loadbalancer and configuration from configmap

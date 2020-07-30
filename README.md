@@ -19,16 +19,19 @@ Q. Convert the Kimai WebApp to run on k8 platform with high availablity
 
 3. Setup kimai application with shared volumes for `/opt/kimai/public` dir
 
-`kubectl apply -f kimai.yaml`
+`kubectl apply -f kimai.yaml -n kimai`
 
 4. Create configmap for Nginx
 
-`kubectl apply -f nginx-configmap.yaml`
+`kubectl apply -f nginx-configmap.yaml -n kimai`
 
 5. Setup Nginx service with external facing loadbalancer and configuration from configmap
 
-`kubectl apply -f nginx.yaml`
+`kubectl apply -f nginx.yaml -n kimai`
 
+6. Check Service and Pod  Status
+
+`kubectl get pod,svc -n kimai `
 
 ## Challenges and k8 Solutions
 1. Dynamic configuration for Nginx --> use configmap
